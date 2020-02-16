@@ -1,0 +1,108 @@
+<p> Please keep this page open as it acts to update bee stats </p>
+<p> If a new bee is registered, you will need to refresh this page </p>
+<p> The status are: </p>
+
+{% if bee_robot_list %}
+    <ul>
+    {% for bee_robot in bee_robot_list %}
+        <li>{{ bee_robot.id }}: {{ bee_robot.is_active }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bee is available so no request is created.</p>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function dummy_bee(bee_robot) {
+    var data = bee_robot;
+
+    data["fuel"] = bee_robot["fuel"] - 1;
+    data["damage"] = bee_robot["damage"] + getRandomInt(2);
+
+    //ran out of fuel
+    if (data["fuel"] < 0) {
+        data["speed"] = 0;
+        data["latitude"] = 0;
+        data["longitude"] = 0;
+        data["elevation"] = 0;
+        data["fuel"] = 100;
+    }
+    //destoryed
+    if (data["damage"] > 100) {
+        //data["is_active"] = False;
+        data["damage"] = 0;
+        return data;
+    }
+    //flying mode
+    if (bee_robot["status"] == 0) {
+        data["speed"] = bee_robot["speed"] + getRandomInt(5) - getRandomInt(5);
+        data["latitude"] = bee_robot["speed"] + getRandomInt(5) - getRandomInt(5);
+        data["longitude"] = bee_robot["speed"] + getRandomInt(5) - getRandomInt(5);
+        data["elevation"] = bee_robot["speed"] + getRandomInt(5) - getRandomInt(5);
+        if (getRandomInt(10) > 5) {
+        data["status"] = 1;
+        }
+        return data;
+    }
+    //nectar mode
+    else if (bee_robot["status"] == 1) {
+        data["speed"] = 0;
+        data["nectar"] = getRandomInt(20);
+        data["status"] = 2;
+        return data;
+    }
+    //honey mode
+    else if (bee_robot["status"] == 2) {
+        data["honey"] = Math.floor(parseInt(bee_robot["nectar"])/2);
+        data["nectar"] = 0;
+        data["status"] = 0;
+        return data;
+    }
+}
+
+function update_single(bee_robot_id) {
+    var bee_robot;
+    var data;
+    $.ajax({
+        type: 'GET',
+        url: '/simple_bee/' + bee_robot_id + '/get/',
+        contentType: 'application/json',
+        async: false,
+        success: function(res) {
+            if (res["is_active"]) {
+                data = dummy_bee(res)
+            }
+            else {
+                data = res
+            }
+        },
+    });  
+    $.ajax({
+        type: 'PUT',
+        url: '/simple_bee/' + bee_robot_id + '/put/', 
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        async: false,
+        success: function(data) {
+            $('.result').html(data);
+        },
+        complete: function() {
+        // Schedule the next request when the current one's complete          
+        setTimeout(update_single, 5000, bee_robot_id);
+        }
+    });
+}
+
+(function update_all() {
+    var json_list = {{json_list | safe}};
+    for (var i=0; i<json_list.length; i++) {
+        update_single(json_list[i]["id"]);
+    }
+})();
+
+</script>

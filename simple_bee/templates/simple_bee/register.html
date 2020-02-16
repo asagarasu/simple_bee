@@ -1,0 +1,15 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if fields %}
+    <form action="{% url 'simple_bee:register_confirm' %}" method="post">
+        {% csrf_token %}
+        {% for field in fields %}
+            <label>{{ field }}</label>
+            <input type="number" name="{{field}}" id="field{{ forloop.counter }}">
+            <br>
+        {% endfor %}
+        <input type="submit" value="register">
+    </form>
+{% else %}
+    <p>The bee model is not available.</p>
+{% endif %}
+<a href="/simple_bee/">Back</a>

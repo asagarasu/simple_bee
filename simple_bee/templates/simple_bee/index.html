@@ -1,0 +1,11 @@
+{% if bee_robot_list %}
+    <ul>
+    {% for bee_robot in bee_robot_list %}
+        <li><a href="{% url 'simple_bee:detail' bee_robot.id %}">{{ bee_robot.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bee is available.</p>
+{% endif %}
+<a href="{% url 'simple_bee:register'%}"> Register a new bee</a>
+<a href="{% url 'simple_bee:random'%}" target="_blank"> Start random stats</a>

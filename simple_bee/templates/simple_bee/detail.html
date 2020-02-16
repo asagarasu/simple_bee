@@ -1,0 +1,59 @@
+{% if bee_robot %}
+    <!-- show bee stats -->
+
+<p id='result'></p>
+    <ul>
+    {% for field, value in bee_robot.items %}
+        <li>{{ field }}: {{ value }}</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'simple_bee:detail' bee_robot.id %}">Refresh</a>
+
+    <!-- decommission and commission -->
+    <form action="{% url 'simple_bee:decommission' bee_robot.id %}" method="post">
+        {% csrf_token %}
+        {% if bee_robot.is_active %}
+        <input type="submit" value="decommission">
+        {% else %}
+        <input type="submit" value="commission">
+        {% endif %}
+    </form>
+
+    <!-- delete -->
+    <form action="{% url 'simple_bee:delete' bee_robot.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="delete">
+    </form>
+
+{% else %}
+    <p>This bee is not available.</p>
+{% endif %}
+
+<a href="/simple_bee/">Back</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+function update_single(bee_robot_id) {
+    var update;
+    $.ajax({
+        type: 'GET',
+        url: '/simple_bee/' + bee_robot_id + '/get/',
+        contentType: 'application/json',
+        success: function(data) {
+            update = "<p id='result'>" + JSON.stringify(data) + "</p>";
+            $('#result').replaceWith(update);
+        },
+        complete: function() {
+            // Schedule the next request when the current one's complete          
+            setTimeout(update_single, 5000, bee_robot_id);
+        }
+    });
+}
+
+(function update_all() {
+    var bee_robot_id = {{bee_robot.id}};
+    update_single(bee_robot_id);
+})();
+
+</script>
