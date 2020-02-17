@@ -46,9 +46,8 @@ function dummy_bee(bee_robot) {
         data["fuel"] = 100;
     }
     //destoryed
-    if (data["damage"] > 100) {
-        //data["is_active"] = False;
-        data["damage"] = 0;
+    if (data["damage"] >= 100) {
+        data["is_active"] = False;
         return data;
     }
     //flying mode
@@ -65,13 +64,13 @@ function dummy_bee(bee_robot) {
     //nectar mode
     else if (bee_robot["status"] == 1) {
         data["speed"] = 0;
-        data["nectar"] = getRandomInt(20);
+        data["nectar"] = getRandomInt(100);
         data["status"] = 2;
         return data;
     }
     //honey mode
     else if (bee_robot["status"] == 2) {
-        data["honey"] = Math.floor(parseInt(bee_robot["nectar"])/2);
+        data["honey"] = Math.floor(parseInt(bee_robot["nectar"])/10*getRandomInt(10));
         data["nectar"] = 0;
         data["status"] = 0;
         return data;

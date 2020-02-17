@@ -24,9 +24,9 @@ ul {
     grid-template-columns: 20% 20% 20% 20% 20%;
     grid-template-rows: 30% 30% 30%;
     grid-template-areas: 
-    ". . . . ."
-    ". . . . ."
-    ". . bee . ."
+    ". . gps . fuel"
+    ". . status food fuel"
+    ". . bee . fuel"
 }
 
 .content {
@@ -61,8 +61,67 @@ ul {
     display: inline-block;
 }
 
+.tube {
+    margin-top: 10%;
+    width: 20%;
+    height: 100%;
+    grid-area: fuel;
+    background-color: aliceblue;
+}
+
+.gps-container {
+    grid-area: gps;
+    padding-bottom: 10%;
+}
+
+#gps-label {
+    align-self: end;
+    justify-self: start;
+    padding-left: 20%;
+    color: azure;
+}
+
+#gps {
+    align-self: end;
+    justify-self: end;
+    padding-right: 25%;
+    color: azure;
+}
+
+#fuel-container {
+    justify-self: end;
+}
+
+#fuel {
+    justify-self: end;
+    background-color: palegoldenrod;
+}
+
+#honey-container {
+    justify-self: center;
+}
+
+#honey {
+    justify-self: center;
+    background-color: gold;
+}
+
+#damage-container {
+    justify-self: start;
+}
+
+#damage {
+    justify-self: start;
+    background-color: lightcoral;
+}
+
 #plus-container {
     grid-area: bee;
+}
+
+#food-container {
+    grid-area: food;
+    align-self: center;
 }
 
 #active {
@@ -84,4 +143,12 @@ ul {
 
 #robot-id {
     font-size: xxx-large;
+}
+
+#food {
+    font-size: xx-large;
+}
+
+#status-container {
+    grid-area: status;
 }

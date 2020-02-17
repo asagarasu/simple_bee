@@ -3,17 +3,45 @@
 {% block content %}
 {% if bee_robot %}
 <!-- show bee stats -->
-<p id='result'></p>
+<strong id='gps-label' class='gps-container'>Latitude<br>Longitude<br>Elevation<br>Speed</strong>
+<strong id='gps' class='gps-container'></strong>
+
+<div id="status-container" class='icon-container'>
+    {% load static %}
+    <img class="icon" alt="flying bee" src= "{% static "simple_bee/image/bee.jpg" %}">
+    <strong id='robot-id' class='label'>FLYING</strong>
+</div>
+
+<div id="food-container">
+    <strong id='food' class='label'></strong>
+</div>
+
+<div id='fuel-container' class='tube'> </div>
+<div id='fuel' class='tube' style='height: 50%'> <p>FUEL</p> </div>
+<div id='honey-container' class='tube'> </div>
+<div id='honey' class='tube' style='height: 50%'> <p>HONEY</p> </div>
+<div id='damage-container' class='tube'> </div>
+<div id='damage' class='tube' style='height: 50%'> <p>DAMAGE</p> </div>
+
 <div id='plus-container'>
     <strong id='robot-id' class='label'>{{ bee_robot.id }}</strong>
     <!-- decommission and commission -->
     <form action="{% url 'simple_bee:decommission' bee_robot.id %}" method="post">
         {% csrf_token %}
+        <div id="commission">
         {% if bee_robot.is_active %}
+        <strong class='label'>Active</strong>
+        <span class="dot" id="active"> </span>
+        <br>
         <input type="submit" value="Decommission">
+
         {% else %}
+        <strong class='label'>Inactive</strong>
+        <span class="dot" id="inactive"> </span>
+        <br>
         <input type="submit" value="Commission">
         {% endif %}
+        </div>
     </form>
     <!-- delete -->
     <form action="{% url 'simple_bee:delete' bee_robot.id %}" method="post">
@@ -39,9 +67,47 @@
 <script type="text/javascript">
 
 function create_html(data){
-    var html;
-    html = "<p id='result'>" + JSON.stringify(data) + "</p>";
-    return html;
+    var gps = 
+    "<strong id='gps' class='gps-container'>" + data["latitude"] + "<br>" + data["longitude"] 
+        + "<br>" + data["elevation"] + "<br>" + data["speed"] + "</strong>";
+    var status;
+    var food;
+    var commission;
+    if (data["damage"]>=100) {
+        commission = "<strong class='label'>Inactive</strong><span class='dot' id='inactive'> </span>"
+    }
+    if (data["status"] == 0) {
+        food = "<strong id='food' class='label'>+" + data["honey"] + " Honey</strong>";
+        status = " <div id='status-container' class='icon-container'> {% load static %}" 
+            + "<img class='icon' alt='flying bee' src= '{% static 'simple_bee/image/bee.jpg' %}'>"
+            + "<br><strong id='robot-id' class='label'>FLYING</strong> </div>";
+    }
+    else if (data["status"] == 1) {
+        food = "    <strong id='food' class='label'></strong>";
+        status = " <div id='status-container' class='icon-container'> {% load static %}" 
+            + "<img class='icon' alt='nectaring' src= '{% static 'simple_bee/image/daisy.svg' %}'>"
+            + "<br><strong id='robot-id' class='label'>NECTARING</strong> </div>";
+    }
+    else if (data["status"] == 2) {
+        food = "<strong id='food' class='label'>+" + data["nectar"] + " Nectar</strong>";
+        status = " <div id='status-container' class='icon-container'> {% load static %}" 
+            + "<img class='icon' alt='honey' src= '{% static 'simple_bee/image/honeycomb.png' %}'>"
+            + "<br><strong id='robot-id' class='label'>HONEYING</strong> </div>";
+    }
+    var fuel = 
+    "<div id='fuel' class='tube' style='height: " + data["fuel"] + "%'> <p>FUEL</p> <p>" + data["fuel"] + "%</p> </div>";
+    var honey = 
+    "<div id='honey' class='tube' style='height: " + data["honey"] + "%'> <p>HONEY</p> <p>" + data["honey"] + "%</p> </div>";
+    var damage = 
+    "<div id='damage' class='tube' style='height: " + data["damage"] + "%'> <p>DAMAGE</p> <p>" + data["damage"] + "%</p> </div>";
+    return {"#fuel": fuel,
+            "#honey": honey,
+            "#status-container": status,
+            "#damage": damage,
+            "#gps": gps,
+            "#food": food,
+            "#commission": commission
+        };
 }
 
 function update_single(bee_robot_id) {
@@ -51,7 +117,12 @@ function update_single(bee_robot_id) {
         url: '/simple_bee/' + bee_robot_id + '/get/',
         contentType: 'application/json',
         success: function(data) {
-            $('#result').replaceWith(create_html(data));
+            update = create_html(data);
+            for (var key in update) {
+                if (update[key]!=undefined) {
+                $(key).replaceWith(update[key]);
+                }
+            }
         },
         complete: function() {
             // Schedule the next request when the current one's complete          
