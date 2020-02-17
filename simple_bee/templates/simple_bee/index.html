@@ -2,6 +2,7 @@
 
 {% block content %}
 {% if bee_robot_list %}
+<!-- list all available bees -->>
     {% for bee_robot in bee_robot_list %}
         <div class="label">
             {{ bee_robot.id }}
@@ -24,12 +25,14 @@
     <p>No bee is available.</p>
 {% endif %}
 
+<!-- link to register -->>
 <a id="plus-container" class="icon-container" href="{% url 'simple_bee:register'%}">
     {% load static %}
     <img class="icon" alt="register a bee" src= "{% static "simple_bee/image/plus.png" %}">
 </a>
 {% endblock %}
 
+<!-- link to random data page -->>
 {% block side-bar %}
 <a class="icon-container" href="{% url 'simple_bee:random'%}" target="_blank">
     {% load static %}

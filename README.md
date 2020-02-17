@@ -64,6 +64,7 @@ Let root=http://127.0.0.1:8000/simple_bee/
 
 * Automatic partial refresh is **only** available on the Detail page of individual Bee_robot. The other pages are with working HTTP request but not display.
 * Most HTTP Requests do not send back designed confirmation. They send back html.
+* **Some of the HTTP request end points receive other HTTP request as well.**
 * **csrf is turned OFF!**
 * Mutiple random data page will lead to unpredicted behavior.
 * Deleting a Bee_robot will **not** free the used id.

@@ -3,6 +3,8 @@
 {% block content %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% if fields %}
+<p>WARNING: this function is not thoroughly tested! Input unsupported data will cause unpredicted behavior!</p>
+<p>WARNING: Input most number as integers smaller than 100. Status receives 0-2. GPS receives floats. is_active considers positive numbers as True, others as False. </p>
     <form action="{% url 'simple_bee:register_confirm' %}" method="post">
         {% csrf_token %}
         {% for field in fields %}
@@ -17,6 +19,7 @@
 {% endif %}
 {% endblock %}
 
+<!-- link to home page -->>
 {% block side-bar %}
 <a class="icon-container" href="/simple_bee/" >
     {% load static %}
