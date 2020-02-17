@@ -1,0 +1,87 @@
+body {
+    background-image: url('../image/background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;    
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto; 
+    text-align: center;  
+    color: black; 
+    font-family: Monospace;
+}
+
+ul {
+    list-style-type:none;
+}
+
+.grid-container {
+    height: 80%;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 30% 30% 30%;
+    grid-template-areas: 
+    ". . . . ."
+    ". . . . ."
+    ". . bee . ."
+}
+
+.content {
+    display: grid;
+}
+
+.side-bar {
+    height: 100%;
+    width: 100%;
+    background-color: aliceblue;
+}
+
+.icon-container {
+    justify-self: center;
+}
+
+.icon {
+    height: 100px;
+    width: 100px;
+    border: 0em;
+    border-radius: 50%;
+}
+
+.label {
+    color: azure;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#plus-container {
+    grid-area: bee;
+}
+
+#active {
+    background-color: lightgreen;
+}
+
+#inactive {
+    background-color: lightgray;
+}
+
+#power {
+    padding-top: 2%;
+}
+
+#home {
+    padding-top: 2%;
+    border-radius: 0%;
+}
+
+#robot-id {
+    font-size: xxx-large;
+}

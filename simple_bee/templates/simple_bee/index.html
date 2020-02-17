@@ -1,11 +1,38 @@
+{% extends "simple_bee/base.html" %}
+
+{% block content %}
 {% if bee_robot_list %}
-    <ul>
     {% for bee_robot in bee_robot_list %}
-        <li><a href="{% url 'simple_bee:detail' bee_robot.id %}">{{ bee_robot.id }}</a></li>
+        <div class="label">
+            {{ bee_robot.id }}
+            <br >
+            <a class="icon-container" href="{% url 'simple_bee:detail' bee_robot.id %}">
+                {% load static %}
+                <img class="icon" alt="a bee robot" src= "{% static "simple_bee/image/bee.jpg" %}">
+            </a>
+            <br >
+            {% if bee_robot.is_active %}
+            <span class="dot" id="active"> </span>
+            {% else %}
+            <span class="dot" id="inactive"> </span>
+            {% endif %}
+
+        </div>
     {% endfor %}
     </ul>
 {% else %}
     <p>No bee is available.</p>
 {% endif %}
-<a href="{% url 'simple_bee:register'%}"> Register a new bee</a>
-<a href="{% url 'simple_bee:random'%}" target="_blank"> Start random stats</a>
+
+<a id="plus-container" class="icon-container" href="{% url 'simple_bee:register'%}">
+    {% load static %}
+    <img class="icon" alt="register a bee" src= "{% static "simple_bee/image/plus.png" %}">
+</a>
+{% endblock %}
+
+{% block side-bar %}
+<a class="icon-container" href="{% url 'simple_bee:random'%}" target="_blank">
+    {% load static %}
+    <img id="power" class="icon" alt="start the random machine" src= "{% static "simple_bee/image/power.svg" %}">
+</a>
+{% endblock %}

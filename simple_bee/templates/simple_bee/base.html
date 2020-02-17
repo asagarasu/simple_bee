@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Simple Bee</title>
+  <meta name="description" content="Manage your bee robots!">
+  <meta name="author" content="yilin-lu">
+
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href= "{% static "simple_bee/css/base.css" %}" />
+</head>
+
+<body>
+  <div class="grid-container">
+    {% block content %}{% endblock %}
+  </div>
+
+  <div class="side-bar">
+    {% block side-bar %}{% endblock %}
+  </div>
+</body>
+
+{% block javascript %}
+{% endblock javascript %}
+
+</html>

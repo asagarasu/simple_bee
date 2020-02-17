@@ -1,3 +1,6 @@
+{% extends "simple_bee/base.html" %}
+
+{% block content %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% if fields %}
     <form action="{% url 'simple_bee:register_confirm' %}" method="post">
@@ -12,4 +15,11 @@
 {% else %}
     <p>The bee model is not available.</p>
 {% endif %}
-<a href="/simple_bee/">Back</a>
+{% endblock %}
+
+{% block side-bar %}
+<a class="icon-container" href="/simple_bee/" >
+    {% load static %}
+    <img id="home" class="icon" alt="back to front page" src= "{% static "simple_bee/image/home.png" %}">
+</a>
+{% endblock %}

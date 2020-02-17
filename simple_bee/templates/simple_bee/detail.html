@@ -1,38 +1,48 @@
+{% extends "simple_bee/base.html" %}
+
+{% block content %}
 {% if bee_robot %}
-    <!-- show bee stats -->
-
+<!-- show bee stats -->
 <p id='result'></p>
-    <ul>
-    {% for field, value in bee_robot.items %}
-        <li>{{ field }}: {{ value }}</li>
-    {% endfor %}
-    </ul>
-    <a href="{% url 'simple_bee:detail' bee_robot.id %}">Refresh</a>
-
+<div id='plus-container'>
+    <strong id='robot-id' class='label'>{{ bee_robot.id }}</strong>
     <!-- decommission and commission -->
     <form action="{% url 'simple_bee:decommission' bee_robot.id %}" method="post">
         {% csrf_token %}
         {% if bee_robot.is_active %}
-        <input type="submit" value="decommission">
+        <input type="submit" value="Decommission">
         {% else %}
-        <input type="submit" value="commission">
+        <input type="submit" value="Commission">
         {% endif %}
     </form>
-
     <!-- delete -->
     <form action="{% url 'simple_bee:delete' bee_robot.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" value="delete">
+        <input type="submit" value="Delete">
     </form>
+</div>
 
 {% else %}
     <p>This bee is not available.</p>
 {% endif %}
+{% endblock %}
 
-<a href="/simple_bee/">Back</a>
+{% block side-bar %}
+<a class="icon-container" href="/simple_bee/" >
+    {% load static %}
+    <img id="home" class="icon" alt="back to front page" src= "{% static "simple_bee/image/home.png" %}">
+</a>
+{% endblock %}
 
+{% block javascript %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
+
+function create_html(data){
+    var html;
+    html = "<p id='result'>" + JSON.stringify(data) + "</p>";
+    return html;
+}
 
 function update_single(bee_robot_id) {
     var update;
@@ -41,8 +51,7 @@ function update_single(bee_robot_id) {
         url: '/simple_bee/' + bee_robot_id + '/get/',
         contentType: 'application/json',
         success: function(data) {
-            update = "<p id='result'>" + JSON.stringify(data) + "</p>";
-            $('#result').replaceWith(update);
+            $('#result').replaceWith(create_html(data));
         },
         complete: function() {
             // Schedule the next request when the current one's complete          
@@ -55,5 +64,5 @@ function update_single(bee_robot_id) {
     var bee_robot_id = {{bee_robot.id}};
     update_single(bee_robot_id);
 })();
-
 </script>
+{% endblock javascript %}
