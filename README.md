@@ -16,11 +16,11 @@ To run a local server, run the following command after cloning and navigating to
 
 Open a browser and go to http://127.0.0.1:8000/simple_bee/, you should see:
 
-![index page](https://github.com/yilin-lu/simple_bee/blob/master/readme/index.jpg =250x)
+![index page](https://raw.githubusercontent.com/yilin-lu/simple_bee/master/readme/index.jpg =250x)
 
 Click on the power icon on the bottom of the page. A page will be opened on a new tab. **Please keep this page open or the random data will cease to be fired.**
 More than one random data page might cause undefined behavior.
-![random data page]()
+![random data page](https://raw.githubusercontent.com/yilin-lu/simple_bee/master/readme/random.jpg =250x)
 
 Then you are all set. You can click around to explore the rest of the site.
 
@@ -73,5 +73,5 @@ Let root=http://127.0.0.1:8000/simple_bee/
 * Register page and random data page are not decorated.
 
 ## Other screenshots
-![detail page]()
-![register page]()
+![detail page](https://raw.githubusercontent.com/yilin-lu/simple_bee/master/readme/detail.jpg =250x)
+![register page](https://raw.githubusercontent.com/yilin-lu/simple_bee/master/readme/register.jpg =250x)
