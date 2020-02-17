@@ -16,7 +16,7 @@ To run a local server, run the following command after cloning and navigating to
 
 Open a browser and go to http://127.0.0.1:8000/simple_bee/, you should see:
 
-![index page]()
+![index page](https://github.com/yilin-lu/simple_bee/blob/master/readme/index.jpg =250x)
 
 Click on the power icon on the bottom of the page. A page will be opened on a new tab. **Please keep this page open or the random data will cease to be fired.**
 More than one random data page might cause undefined behavior.
